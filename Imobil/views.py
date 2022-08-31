@@ -2,6 +2,17 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+import pymongo
+from django.conf import settings
+
+
+my_client = pymongo.MongoClient(settings.DB_NAME)
+
+dbname = my_client['Projeto']
+collection_name = dbname["auth_user"]
+update_data = collection_name.update_one({'id':1}, {'$set':{'username':'Ruben'}})
+count = collection_name.count()
+print(count)
 
 
 class PostListView(ListView):
@@ -54,3 +65,5 @@ def home(request):
 
 def about(request):
     return render(request, 'Imobil/about.html', {'title': 'About'})
+
+

@@ -76,6 +76,8 @@ WSGI_APPLICATION = 'ProjetoBD2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+DB_NAME = 'mongodb+srv://GrupoBD2:3108112B52@projeto.wzyxukn.mongodb.net/?retryWrites=true&w=majority'
+
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
@@ -85,7 +87,7 @@ DATABASES = {
                 'host': 'mongodb+srv://GrupoBD2:3108112B52@projeto.wzyxukn.mongodb.net/test'
             }  
     }
-}
+} 
 
 
 # Password validation
