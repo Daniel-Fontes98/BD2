@@ -1,16 +1,34 @@
 {% extends "Imobil/base.html" %}
 {% block content %}
     {% for post in posts %}
-    <article class="media content-section">
-      <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">{{ post.author }}</a>
-            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-          </div>
-          <h2><a class="article-title" href="{% url 'imobil-detail' post.id %}">{{ post.title }}</a></h2>
-          <p class="article-content">{{ post.content }}</p>
-        </div>
-      </article>
+      {% if user.is_authenticated %}
+        {% if post.verified == True %}
+          <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ post.author }}</a>
+                  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'imobil-detail' post.id %}">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
+              </div>
+          </article>
+        {% endif %}
+      {% else %}
+        {% if post.verified == True and post.Gold_Access == False %}
+          <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="#">{{ post.author }}</a>
+                  <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'imobil-detail' post.id %}">{{ post.title }}</a></h2>
+                <p class="article-content">{{ post.content }}</p>
+              </div>
+          </article>
+          {% endif %}
+      {% endif %}
     {% endfor %}
 {% endblock content %}

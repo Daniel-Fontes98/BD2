@@ -6,13 +6,13 @@ import pymongo
 from django.conf import settings
 
 
-my_client = pymongo.MongoClient(settings.DB_NAME)
+""" my_client = pymongo.MongoClient(settings.DB_NAME)
 
 dbname = my_client['Projeto']
 collection_name = dbname["auth_user"]
 update_data = collection_name.update_one({'id':1}, {'$set':{'username':'Ruben'}})
 count = collection_name.count()
-print(count)
+print(count) """
 
 
 class PostListView(ListView):
@@ -29,13 +29,13 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/'
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        if self.request.user == post.author or self.request.user.is_staff == True:
             return True
         return False
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'Gold_Access']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -51,7 +51,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        if self.request.user == post.author or self.request.user.is_staff == True:
             return True
         return False
 
