@@ -1,4 +1,7 @@
 {% extends "Imobil/base.html" %}
 {% block content %}
-    <h1>About page!</h1> 
+{%for user in users%}
+<h1>{{user.username}}</h1>
+<h2>{{n}}</h2> 
+{%endfor%}
 {% endblock content %}

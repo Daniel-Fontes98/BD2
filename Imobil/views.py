@@ -1,18 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from .models import Post
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 import pymongo
 from django.conf import settings
 
 
-""" my_client = pymongo.MongoClient(settings.DB_NAME)
+my_client = pymongo.MongoClient(settings.DB_NAME)
 
 dbname = my_client['Projeto']
 collection_name = dbname["auth_user"]
 update_data = collection_name.update_one({'id':1}, {'$set':{'username':'Ruben'}})
 count = collection_name.count()
-print(count) """
+
 
 
 class PostListView(ListView):
@@ -35,7 +36,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'Gold_Access']
+    fields = ['title', 'content', 'Gold_Access', 'image']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -59,11 +60,15 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all(),
     }
     return render(request, 'Imobil/home.html', context)
 
 def about(request):
-    return render(request, 'Imobil/about.html', {'title': 'About'})
+    context = {
+        'users': User.objects.all(),
+        'n' : count
+    }
+    return render(request, 'Imobil/about.html', context)
 
 

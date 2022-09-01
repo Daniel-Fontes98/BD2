@@ -10,7 +10,8 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     verified = models.BooleanField(default=False)
-    Gold_Access = models.BooleanField()
+    Gold_Access = models.BooleanField(default=False)
+    image = models.ImageField(default='defaultHouse.jpg', upload_to='house_pics')
 
     def __str__(self):
         return self.title
